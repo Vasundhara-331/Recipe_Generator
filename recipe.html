@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +20,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -46,30 +47,28 @@
             font-style: italic;
         }
 
-        .main-content {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 30px;
-            align-items: start;
-        }
-
         .pantry-section {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 20px;
-            max-height: 80vh;
-            overflow-y: auto;
+            margin-bottom: 30px;
+        }
+
+        .pantry-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
         .section-title {
             font-size: 1.8rem;
             color: #d35400;
-            margin-bottom: 20px;
             display: flex;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .section-title::before {
@@ -80,7 +79,8 @@
 
         .search-box {
             position: relative;
-            margin-bottom: 20px;
+            flex: 1;
+            min-width: 250px;
         }
 
         .search-input {
@@ -106,81 +106,17 @@
             font-size: 1.2rem;
         }
 
-        .ingredients-categories {
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #d35400;
-            margin: 15px 0 10px 0;
-            padding: 8px 0;
-            border-bottom: 2px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-        }
-
-        .category-icon {
-            margin-right: 8px;
-            font-size: 1.2rem;
-        }
-
-        .ingredients-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .ingredient-checkbox {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            cursor: pointer;
-            background: #f8f9fa;
-            border: 2px solid transparent;
-            font-weight: 500;
-        }
-
-        .ingredient-checkbox:hover {
-            background-color: #e9ecef;
-            border-color: #ff6b6b;
-        }
-
-        .ingredient-checkbox.selected {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            color: white;
-            border-color: #2d8a80;
-        }
-
-        .ingredient-checkbox input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 12px;
-            cursor: pointer;
-            accent-color: #ff6b6b;
-        }
-
-        .ingredient-checkbox.selected input[type="checkbox"] {
-            accent-color: white;
-        }
-
         .selected-count {
             background: linear-gradient(45deg, #ff6b6b, #ff8e53);
             color: white;
-            padding: 10px 15px;
+            padding: 10px 20px;
             border-radius: 20px;
-            text-align: center;
             font-weight: bold;
-            margin-bottom: 15px;
+            white-space: nowrap;
         }
 
         .find-recipes-btn {
-            width: 100%;
-            padding: 15px;
+            padding: 15px 30px;
             background: linear-gradient(45deg, #ff6b6b, #ff8e53);
             color: white;
             border: none;
@@ -189,6 +125,7 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .find-recipes-btn:hover {
@@ -203,8 +140,128 @@
             box-shadow: none;
         }
 
+        .ingredients-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .category-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 15px;
+            padding: 8px 0;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+        }
+
+        .ingredient-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: white;
+            border: 2px solid transparent;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .ingredient-checkbox:hover {
+            background-color: #e9ecef;
+            border-color: #ff6b6b;
+        }
+
+        .ingredient-checkbox.selected {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border-color: #2d8a80;
+        }
+
+        .ingredient-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #ff6b6b;
+            flex-shrink: 0;
+        }
+
+        .ingredient-checkbox.selected input[type="checkbox"] {
+            accent-color: white;
+        }
+
         .recipes-container {
-            min-height: 400px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            display: none;
+            padding: 20px;
+        }
+
+        .recipes-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .recipes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .recipes-title {
+            font-size: 2rem;
+            color: #d35400;
+            margin: 0;
+        }
+
+        .close-recipes-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .close-recipes-btn:hover {
+            background: #c82333;
         }
 
         .recipes-grid {
@@ -285,9 +342,7 @@
             text-align: center;
             color: #666;
             font-size: 1.2rem;
-            padding: 60px 40px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
+            padding: 40px;
         }
 
         .recipe-detail {
@@ -298,7 +353,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
+            z-index: 2000;
             overflow-y: auto;
         }
 
@@ -374,25 +429,6 @@
             font-size: 0.8rem;
         }
 
-        @media (max-width: 1200px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .pantry-section {
-                position: static;
-                max-height: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 10px; }
-            h1 { font-size: 2rem; }
-            .recipes-grid { grid-template-columns: 1fr; }
-            .recipe-detail-content { margin: 20px; }
-        }
-
         .clear-all-btn {
             background: #dc3545;
             color: white;
@@ -408,6 +444,66 @@
         .clear-all-btn:hover {
             background: #c82333;
         }
+
+        @media (max-width: 1200px) {
+            .ingredients-categories {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container { 
+                padding: 10px; 
+            }
+            
+            h1 { 
+                font-size: 2rem; 
+            }
+            
+            .pantry-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .section-title {
+                justify-content: center;
+                margin-bottom: 15px;
+            }
+            
+            .ingredients-categories {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .ingredients-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .recipes-content {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .recipes-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .recipe-detail-content { 
+                margin: 20px; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ingredients-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            
+            .ingredient-checkbox {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -417,8 +513,8 @@
             <p class="subtitle">Select ingredients from your pantry to discover amazing recipes</p>
         </header>
 
-        <div class="main-content">
-            <div class="pantry-section">
+        <div class="pantry-section">
+            <div class="pantry-controls">
                 <h2 class="section-title">Your Pantry</h2>
                 
                 <div class="search-box">
@@ -434,8 +530,10 @@
                 <button class="find-recipes-btn" id="findRecipesBtn" disabled>
                     Find Recipes
                 </button>
+            </div>
 
-                <div class="ingredients-categories" id="ingredientsContainer">
+            <div class="ingredients-categories" id="ingredientsContainer">
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🥩</span>
                         Proteins
@@ -474,7 +572,9 @@
                             tofu
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🥕</span>
                         Vegetables
@@ -521,7 +621,9 @@
                             mixed vegetables
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🌾</span>
                         Grains & Starches
@@ -552,7 +654,9 @@
                             tortillas
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🫘</span>
                         Beans & Legumes
@@ -575,7 +679,9 @@
                             kidney beans
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🧀</span>
                         Dairy
@@ -606,7 +712,9 @@
                             parmesan
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🌿</span>
                         Herbs & Spices
@@ -637,7 +745,9 @@
                             curry powder
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🫒</span>
                         Oils & Condiments
@@ -664,7 +774,9 @@
                             balsamic vinegar
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🍋</span>
                         Fruits & Citrus
@@ -683,7 +795,9 @@
                             apples
                         </label>
                     </div>
+                </div>
 
+                <div class="category-section">
                     <div class="category-title">
                         <span class="category-icon">🥛</span>
                         Liquids
@@ -704,13 +818,17 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="recipes-container" id="recipesContainer">
-                <div class="no-recipes">
-                    🥕 Select ingredients from your pantry to get started!<br>
-                    <small>Choose from the ingredient list on the left</small>
-                </div>
+    <!-- Recipes Container (Overlay) -->
+    <div id="recipesContainer" class="recipes-container">
+        <div class="recipes-content">
+            <div class="recipes-header">
+                <h2 class="recipes-title">Recipe Suggestions</h2>
+                <button class="close-recipes-btn" onclick="closeRecipes()">Close</button>
             </div>
+            <div id="recipesGrid"></div>
         </div>
     </div>
 
@@ -950,209 +1068,287 @@
                 ],
                 cookingTime: "15 minutes",
                 difficulty: "Easy"
+            },
+            {
+                name: "Spinach and Cheese Quesadilla",
+                ingredients: ["spinach", "cheese", "tortillas", "garlic", "olive oil"],
+                instructions: [
+                    "Sauté spinach with garlic until wilted",
+                    "Let spinach cool and squeeze out excess water",
+                    "Place spinach and cheese on half of each tortilla",
+                    "Fold tortillas in half",
+                    "Cook in a hot skillet until golden and cheese melts",
+                    "Cut into wedges and serve hot"
+                ],
+                cookingTime: "15 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Beef Tacos",
+                ingredients: ["beef", "tortillas", "onion", "cheese", "tomatoes", "cilantro"],
+                instructions: [
+                    "Brown ground beef in a large skillet",
+                    "Add diced onion and cook until soft",
+                    "Season with taco seasoning",
+                    "Warm tortillas in a dry skillet",
+                    "Fill tortillas with beef mixture",
+                    "Top with cheese, tomatoes, and cilantro"
+                ],
+                cookingTime: "20 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Quinoa Salad",
+                ingredients: ["quinoa", "vegetables", "lemons", "olive oil", "herbs"],
+                instructions: [
+                    "Cook quinoa according to package directions and cool",
+                    "Dice vegetables into small pieces",
+                    "Make dressing with lemon juice and olive oil",
+                    "Combine quinoa and vegetables in a large bowl",
+                    "Add fresh herbs and toss with dressing",
+                    "Let sit for 30 minutes before serving"
+                ],
+                cookingTime: "25 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Chicken Noodle Soup",
+                ingredients: ["chicken", "noodles", "carrots", "onion", "chicken broth", "herbs"],
+                instructions: [
+                    "Sauté diced onion and carrots until soft",
+                    "Add chicken broth and bring to a boil",
+                    "Add chicken pieces and simmer until cooked",
+                    "Add noodles and cook until tender",
+                    "Season with herbs, salt, and pepper",
+                    "Serve hot with fresh herbs"
+                ],
+                cookingTime: "35 minutes",
+                difficulty: "Medium"
             }
         ];
 
-        let selectedIngredients = new Set();
-        let filteredRecipes = [];
+        // State management
+        let selectedIngredients = [];
+        let currentRecipes = [];
 
         // DOM elements
         const searchInput = document.getElementById('searchInput');
         const selectedCount = document.getElementById('selectedCount');
-        const clearAllBtn = document.getElementById('clearAllBtn');
         const findRecipesBtn = document.getElementById('findRecipesBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
         const recipesContainer = document.getElementById('recipesContainer');
-        const ingredientsContainer = document.getElementById('ingredientsContainer');
+        const recipesGrid = document.getElementById('recipesGrid');
 
-        // Initialize the app
-        function init() {
-            setupEventListeners();
-            updateSelectedCount();
-        }
-
-        function setupEventListeners() {
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Search functionality
+            searchInput.addEventListener('input', handleSearch);
+            
             // Ingredient checkboxes
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
+            document.querySelectorAll('.ingredient-checkbox input[type="checkbox"]').forEach(checkbox => {
                 checkbox.addEventListener('change', handleIngredientToggle);
             });
 
-            // Search functionality
-            searchInput.addEventListener('input', handleSearch);
-
             // Clear all button
-            clearAllBtn.addEventListener('click', clearAllIngredients);
+            clearAllBtn.addEventListener('click', clearAllSelections);
 
             // Find recipes button
             findRecipesBtn.addEventListener('click', findRecipes);
+
+            // Close overlay when clicking outside
+            recipesContainer.addEventListener('click', (e) => {
+                if (e.target === recipesContainer) {
+                    closeRecipes();
+                }
+            });
         }
 
+        // Search functionality
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const allIngredients = document.querySelectorAll('.ingredient-checkbox');
+            
+            allIngredients.forEach(ingredient => {
+                const ingredientName = ingredient.dataset.ingredient.toLowerCase();
+                const shouldShow = ingredientName.includes(searchTerm);
+                ingredient.style.display = shouldShow ? 'flex' : 'none';
+            });
+
+            // Hide categories that have no visible ingredients
+            document.querySelectorAll('.category-section').forEach(category => {
+                const visibleIngredients = category.querySelectorAll('.ingredient-checkbox[style*="flex"], .ingredient-checkbox:not([style])');
+                const hasVisibleIngredients = Array.from(visibleIngredients).some(ing => 
+                    !ing.style.display || ing.style.display === 'flex'
+                );
+                category.style.display = hasVisibleIngredients ? 'block' : 'none';
+            });
+        }
+
+        // Handle ingredient selection
         function handleIngredientToggle(event) {
             const ingredient = event.target.value;
             const label = event.target.closest('.ingredient-checkbox');
             
             if (event.target.checked) {
-                selectedIngredients.add(ingredient);
+                selectedIngredients.push(ingredient);
                 label.classList.add('selected');
             } else {
-                selectedIngredients.delete(ingredient);
+                selectedIngredients = selectedIngredients.filter(item => item !== ingredient);
                 label.classList.remove('selected');
             }
             
             updateSelectedCount();
         }
 
-        function handleSearch(event) {
-            const searchTerm = event.target.value.toLowerCase();
-            const ingredientLabels = document.querySelectorAll('.ingredient-checkbox');
-            
-            ingredientLabels.forEach(label => {
-                const ingredientName = label.textContent.toLowerCase();
-                if (ingredientName.includes(searchTerm)) {
-                    label.style.display = 'flex';
-                } else {
-                    label.style.display = 'none';
-                }
-            });
-        }
-
+        // Update selected count display
         function updateSelectedCount() {
-            const count = selectedIngredients.size;
+            const count = selectedIngredients.length;
             selectedCount.innerHTML = `
                 ${count} ingredient${count !== 1 ? 's' : ''} selected
-                ${count > 0 ? '<button class="clear-all-btn" id="clearAllBtn">Clear All</button>' : ''}
+                ${count > 0 ? '<button class="clear-all-btn" id="clearAllBtn" onclick="clearAllSelections()">Clear All</button>' : ''}
             `;
             
-            // Re-attach event listener to new clear button
-            const newClearBtn = document.getElementById('clearAllBtn');
-            if (newClearBtn) {
-                newClearBtn.addEventListener('click', clearAllIngredients);
-            }
-            
-            // Enable/disable find recipes button
             findRecipesBtn.disabled = count === 0;
         }
 
-        function clearAllIngredients() {
-            selectedIngredients.clear();
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const labels = document.querySelectorAll('.ingredient-checkbox');
-            
-            checkboxes.forEach(checkbox => checkbox.checked = false);
-            labels.forEach(label => label.classList.remove('selected'));
-            
+        // Clear all selections
+        function clearAllSelections() {
+            selectedIngredients = [];
+            document.querySelectorAll('.ingredient-checkbox input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.closest('.ingredient-checkbox').classList.remove('selected');
+            });
             updateSelectedCount();
-            
-            // Clear recipes display
-            recipesContainer.innerHTML = `
-                <div class="no-recipes">
-                    🥕 Select ingredients from your pantry to get started!<br>
-                    <small>Choose from the ingredient list on the left</small>
-                </div>
-            `;
         }
 
+        // Find recipes based on selected ingredients
         function findRecipes() {
-            if (selectedIngredients.size === 0) return;
+            if (selectedIngredients.length === 0) return;
             
-            filteredRecipes = recipeDatabase.filter(recipe => {
+            // Filter recipes that contain at least some of the selected ingredients
+            currentRecipes = recipeDatabase.filter(recipe => {
                 const matchingIngredients = recipe.ingredients.filter(ingredient => 
-                    selectedIngredients.has(ingredient)
+                    selectedIngredients.some(selected => 
+                        ingredient.toLowerCase().includes(selected.toLowerCase()) ||
+                        selected.toLowerCase().includes(ingredient.toLowerCase())
+                    )
                 );
-                return matchingIngredients.length >= 2; // Need at least 2 matching ingredients
+                return matchingIngredients.length > 0;
             });
-            
+
             // Sort by number of matching ingredients (descending)
-            filteredRecipes.sort((a, b) => {
-                const aMatches = a.ingredients.filter(ing => selectedIngredients.has(ing)).length;
-                const bMatches = b.ingredients.filter(ing => selectedIngredients.has(ing)).length;
+            currentRecipes.sort((a, b) => {
+                const aMatches = a.ingredients.filter(ingredient => 
+                    selectedIngredients.some(selected => 
+                        ingredient.toLowerCase().includes(selected.toLowerCase()) ||
+                        selected.toLowerCase().includes(ingredient.toLowerCase())
+                    )
+                ).length;
+                
+                const bMatches = b.ingredients.filter(ingredient => 
+                    selectedIngredients.some(selected => 
+                        ingredient.toLowerCase().includes(selected.toLowerCase()) ||
+                        selected.toLowerCase().includes(ingredient.toLowerCase())
+                    )
+                ).length;
+                
                 return bMatches - aMatches;
             });
-            
+
             displayRecipes();
         }
 
+        // Display recipes in overlay
         function displayRecipes() {
-            if (filteredRecipes.length === 0) {
-                recipesContainer.innerHTML = `
-                    <div class="no-recipes">
-                        😔 No recipes found with your selected ingredients.<br>
-                        <small>Try selecting different ingredients or fewer ingredients</small>
-                    </div>
-                `;
-                return;
+            if (currentRecipes.length === 0) {
+                recipesGrid.innerHTML = '<div class="no-recipes">No recipes found with your selected ingredients. Try selecting different ingredients!</div>';
+            } else {
+                recipesGrid.innerHTML = currentRecipes.map((recipe, index) => {
+                    const matchingIngredients = recipe.ingredients.filter(ingredient => 
+                        selectedIngredients.some(selected => 
+                            ingredient.toLowerCase().includes(selected.toLowerCase()) ||
+                            selected.toLowerCase().includes(ingredient.toLowerCase())
+                        )
+                    );
+                    
+                    const ingredientsHtml = recipe.ingredients.map(ingredient => {
+                        const isMatched = matchingIngredients.includes(ingredient);
+                        return `<span class="ingredient-item ${isMatched ? 'matched' : ''}">${ingredient}</span>`;
+                    }).join('');
+
+                    return `
+                        <div class="recipe-card" onclick="showRecipeDetail(${index})">
+                            <div class="recipe-header">
+                                <h3 class="recipe-title">${recipe.name}</h3>
+                                <p class="recipe-difficulty">${recipe.difficulty}</p>
+                            </div>
+                            <div class="recipe-body">
+                                <div class="recipe-ingredients">
+                                    <div class="ingredients-title">Ingredients (${matchingIngredients.length}/${recipe.ingredients.length} matched):</div>
+                                    ${ingredientsHtml}
+                                </div>
+                            </div>
+                            <div class="recipe-time">⏱️ ${recipe.cookingTime}</div>
+                        </div>
+                    `;
+                }).join('');
             }
             
-            const recipesHTML = filteredRecipes.map(recipe => {
-                const matchingIngredients = recipe.ingredients.filter(ing => selectedIngredients.has(ing));
-                const ingredientsHTML = recipe.ingredients.map(ing => {
-                    const isMatched = selectedIngredients.has(ing);
-                    return `<span class="ingredient-item ${isMatched ? 'matched' : ''}">${ing}</span>`;
-                }).join('');
-                
-                return `
-                    <div class="recipe-card" onclick="showRecipeDetail('${recipe.name}')">
-                        <div class="recipe-header">
-                            <h3 class="recipe-title">${recipe.name}</h3>
-                            <p class="recipe-difficulty">${recipe.difficulty} • ${matchingIngredients.length}/${recipe.ingredients.length} ingredients match</p>
-                        </div>
-                        <div class="recipe-body">
-                            <div class="recipe-ingredients">
-                                <div class="ingredients-title">Ingredients:</div>
-                                ${ingredientsHTML}
-                            </div>
-                        </div>
-                        <div class="recipe-time">⏱️ ${recipe.cookingTime}</div>
-                    </div>
-                `;
-            }).join('');
-            
-            recipesContainer.innerHTML = `
-                <div class="recipes-grid">
-                    ${recipesHTML}
-                </div>
-            `;
+            recipesContainer.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
-        function showRecipeDetail(recipeName) {
-            const recipe = recipeDatabase.find(r => r.name === recipeName);
-            if (!recipe) return;
+        // Show recipe detail
+        function showRecipeDetail(index) {
+            const recipe = currentRecipes[index];
             
             document.getElementById('detailTitle').textContent = recipe.name;
-            document.getElementById('detailDifficulty').textContent = `${recipe.difficulty} • ${recipe.cookingTime}`;
+            document.getElementById('detailDifficulty').textContent = `Difficulty: ${recipe.difficulty}`;
+            document.getElementById('detailTime').textContent = `⏱️ Cooking Time: ${recipe.cookingTime}`;
             
-            // Display ingredients with highlighting
-            const ingredientsHTML = recipe.ingredients.map(ing => {
-                const isMatched = selectedIngredients.has(ing);
-                return `<span class="ingredient-item ${isMatched ? 'matched' : ''}">${ing}</span>`;
+            // Show ingredients with highlighting
+            const matchingIngredients = recipe.ingredients.filter(ingredient => 
+                selectedIngredients.some(selected => 
+                    ingredient.toLowerCase().includes(selected.toLowerCase()) ||
+                    selected.toLowerCase().includes(ingredient.toLowerCase())
+                )
+            );
+            
+            const ingredientsHtml = recipe.ingredients.map(ingredient => {
+                const isMatched = matchingIngredients.includes(ingredient);
+                return `<span class="ingredient-item ${isMatched ? 'matched' : ''}">${ingredient}</span>`;
             }).join('');
-            document.getElementById('detailIngredients').innerHTML = ingredientsHTML;
             
-            // Display instructions
-            const instructionsHTML = recipe.instructions.map(instruction => 
+            document.getElementById('detailIngredients').innerHTML = ingredientsHtml;
+            
+            // Show instructions
+            const instructionsHtml = recipe.instructions.map(instruction => 
                 `<li>${instruction}</li>`
             ).join('');
-            document.getElementById('detailInstructions').innerHTML = instructionsHTML;
             
-            document.getElementById('detailTime').textContent = `Total cooking time: ${recipe.cookingTime}`;
+            document.getElementById('detailInstructions').innerHTML = instructionsHtml;
             
-            // Show modal
             document.getElementById('recipeDetail').style.display = 'block';
         }
 
+        // Close recipes overlay
+        function closeRecipes() {
+            recipesContainer.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close recipe detail modal
         function closeRecipeDetail() {
             document.getElementById('recipeDetail').style.display = 'none';
         }
 
-        // Close modal when clicking outside
-        document.getElementById('recipeDetail').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeRecipeDetail();
-            }
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            updateSelectedCount();
         });
-
-        // Initialize the app when page loads
-        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
+
+        
