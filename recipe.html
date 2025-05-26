@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Generator - What's Cooking?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff6b6b, #ffa500, #ffeb3b);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #d35400;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .pantry-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #d35400;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "🥘";
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .ingredients-categories {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #d35400;
+            margin: 15px 0 10px 0;
+            padding: 8px 0;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .ingredient-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        .ingredient-checkbox:hover {
+            background-color: #e9ecef;
+            border-color: #ff6b6b;
+        }
+
+        .ingredient-checkbox.selected {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border-color: #2d8a80;
+        }
+
+        .ingredient-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #ff6b6b;
+        }
+
+        .ingredient-checkbox.selected input[type="checkbox"] {
+            accent-color: white;
+        }
+
+        .selected-count {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .find-recipes-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+        }
+
+        .find-recipes-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .find-recipes-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .recipes-container {
+            min-height: 400px;
+        }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .recipe-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .recipe-title {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .recipe-difficulty {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .recipe-body {
+            padding: 20px;
+        }
+
+        .recipe-ingredients {
+            margin-bottom: 15px;
+        }
+
+        .ingredients-title {
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 8px;
+        }
+
+        .ingredient-item {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            margin: 2px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .ingredient-item.matched {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .recipe-time {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .no-recipes {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+        }
+
+        .recipe-detail {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .recipe-detail-content {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .recipe-detail-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .recipe-detail-body {
+            padding: 40px;
+        }
+
+        .instructions-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .instructions-list li {
+            counter-increment: step-counter;
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .instructions-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ff6b6b;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .pantry-section {
+                position: static;
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            h1 { font-size: 2rem; }
+            .recipes-grid { grid-template-columns: 1fr; }
+            .recipe-detail-content { margin: 20px; }
+        }
+
+        .clear-all-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .clear-all-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍳 What's Cooking?</h1>
+            <p class="subtitle">Select ingredients from your pantry to discover amazing recipes</p>
+        </header>
+
+        <div class="main-content">
+            <div class="pantry-section">
+                <h2 class="section-title">Your Pantry</h2>
+                
+                <div class="search-box">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search ingredients...">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <div class="selected-count" id="selectedCount">
+                    0 ingredients selected
+                    <button class="clear-all-btn" id="clearAllBtn" style="display: none;">Clear All</button>
+                </div>
+
+                <button class="find-recipes-btn" id="findRecipesBtn" disabled>
+                    Find Recipes
+                </button>
+
+                <div class="ingredients-categories" id="ingredientsContainer">
+                    <div class="category-title">
+                        <span class="category-icon">🥩</span>
+                        Proteins
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="chicken">
+                            <input type="checkbox" value="chicken">
+                            chicken
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="beef">
+                            <input type="checkbox" value="beef">
+                            beef
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="pork">
+                            <input type="checkbox" value="pork">
+                            pork
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="salmon">
+                            <input type="checkbox" value="salmon">
+                            salmon
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="tuna">
+                            <input type="checkbox" value="tuna">
+                            tuna
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="shrimp">
+                            <input type="checkbox" value="shrimp">
+                            shrimp
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="eggs">
+                            <input type="checkbox" value="eggs">
+                            eggs
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="tofu">
+                            <input type="checkbox" value="tofu">
+                            tofu
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🥕</span>
+                        Vegetables
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="onion">
+                            <input type="checkbox" value="onion">
+                            onion
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="garlic">
+                            <input type="checkbox" value="garlic">
+                            garlic
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="tomatoes">
+                            <input type="checkbox" value="tomatoes">
+                            tomatoes
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="bell peppers">
+                            <input type="checkbox" value="bell peppers">
+                            bell peppers
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="carrots">
+                            <input type="checkbox" value="carrots">
+                            carrots
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="broccoli">
+                            <input type="checkbox" value="broccoli">
+                            broccoli
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="spinach">
+                            <input type="checkbox" value="spinach">
+                            spinach
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="mushrooms">
+                            <input type="checkbox" value="mushrooms">
+                            mushrooms
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="potatoes">
+                            <input type="checkbox" value="potatoes">
+                            potatoes
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="vegetables">
+                            <input type="checkbox" value="vegetables">
+                            mixed vegetables
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🌾</span>
+                        Grains & Starches
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="rice">
+                            <input type="checkbox" value="rice">
+                            rice
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="pasta">
+                            <input type="checkbox" value="pasta">
+                            pasta
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="bread">
+                            <input type="checkbox" value="bread">
+                            bread
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="quinoa">
+                            <input type="checkbox" value="quinoa">
+                            quinoa
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="noodles">
+                            <input type="checkbox" value="noodles">
+                            noodles
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="tortillas">
+                            <input type="checkbox" value="tortillas">
+                            tortillas
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🫘</span>
+                        Beans & Legumes
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="black beans">
+                            <input type="checkbox" value="black beans">
+                            black beans
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="chickpeas">
+                            <input type="checkbox" value="chickpeas">
+                            chickpeas
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="lentils">
+                            <input type="checkbox" value="lentils">
+                            lentils
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="kidney beans">
+                            <input type="checkbox" value="kidney beans">
+                            kidney beans
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🧀</span>
+                        Dairy
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="milk">
+                            <input type="checkbox" value="milk">
+                            milk
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="cheese">
+                            <input type="checkbox" value="cheese">
+                            cheese
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="butter">
+                            <input type="checkbox" value="butter">
+                            butter
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="cream">
+                            <input type="checkbox" value="cream">
+                            cream
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="mozzarella">
+                            <input type="checkbox" value="mozzarella">
+                            mozzarella
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="parmesan">
+                            <input type="checkbox" value="parmesan">
+                            parmesan
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🌿</span>
+                        Herbs & Spices
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="basil">
+                            <input type="checkbox" value="basil">
+                            basil
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="oregano">
+                            <input type="checkbox" value="oregano">
+                            oregano
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="herbs">
+                            <input type="checkbox" value="herbs">
+                            mixed herbs
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="cilantro">
+                            <input type="checkbox" value="cilantro">
+                            cilantro
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="ginger">
+                            <input type="checkbox" value="ginger">
+                            ginger
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="curry powder">
+                            <input type="checkbox" value="curry powder">
+                            curry powder
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🫒</span>
+                        Oils & Condiments
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="olive oil">
+                            <input type="checkbox" value="olive oil">
+                            olive oil
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="vegetable oil">
+                            <input type="checkbox" value="vegetable oil">
+                            vegetable oil
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="soy sauce">
+                            <input type="checkbox" value="soy sauce">
+                            soy sauce
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="honey">
+                            <input type="checkbox" value="honey">
+                            honey
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="balsamic">
+                            <input type="checkbox" value="balsamic">
+                            balsamic vinegar
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🍋</span>
+                        Fruits & Citrus
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="lemons">
+                            <input type="checkbox" value="lemons">
+                            lemons
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="limes">
+                            <input type="checkbox" value="limes">
+                            limes
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="apples">
+                            <input type="checkbox" value="apples">
+                            apples
+                        </label>
+                    </div>
+
+                    <div class="category-title">
+                        <span class="category-icon">🥛</span>
+                        Liquids
+                    </div>
+                    <div class="ingredients-grid">
+                        <label class="ingredient-checkbox" data-ingredient="chicken broth">
+                            <input type="checkbox" value="chicken broth">
+                            chicken broth
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="coconut milk">
+                            <input type="checkbox" value="coconut milk">
+                            coconut milk
+                        </label>
+                        <label class="ingredient-checkbox" data-ingredient="wine">
+                            <input type="checkbox" value="wine">
+                            wine
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipes-container" id="recipesContainer">
+                <div class="no-recipes">
+                    🥕 Select ingredients from your pantry to get started!<br>
+                    <small>Choose from the ingredient list on the left</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Detail Modal -->
+    <div id="recipeDetail" class="recipe-detail">
+        <div class="recipe-detail-content">
+            <div class="recipe-detail-header">
+                <button class="close-btn" onclick="closeRecipeDetail()">&times;</button>
+                <h2 id="detailTitle"></h2>
+                <p id="detailDifficulty"></p>
+            </div>
+            <div class="recipe-detail-body">
+                <div class="recipe-ingredients">
+                    <h3 class="ingredients-title">Ingredients:</h3>
+                    <div id="detailIngredients"></div>
+                </div>
+                <div style="margin-top: 30px;">
+                    <h3 class="ingredients-title">Instructions:</h3>
+                    <ol class="instructions-list" id="detailInstructions"></ol>
+                </div>
+                <div class="recipe-time" id="detailTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Recipe database
+        const recipeDatabase = [
+            {
+                name: "Classic Chicken Stir Fry",
+                ingredients: ["chicken", "soy sauce", "vegetables", "garlic", "ginger", "vegetable oil"],
+                instructions: [
+                    "Heat oil in a large wok or skillet over high heat",
+                    "Add diced chicken and cook until golden brown, about 5-6 minutes",
+                    "Add minced garlic and ginger, stir for 30 seconds",
+                    "Add vegetables and stir-fry for 3-4 minutes until crisp-tender",
+                    "Pour in soy sauce and toss everything together",
+                    "Serve immediately over steamed rice"
+                ],
+                cookingTime: "15 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Creamy Mushroom Pasta",
+                ingredients: ["pasta", "mushrooms", "cream", "garlic", "parmesan", "butter"],
+                instructions: [
+                    "Cook pasta according to package directions until al dente",
+                    "In a large pan, sauté sliced mushrooms in butter until golden",
+                    "Add minced garlic and cook for 1 minute",
+                    "Pour in cream and bring to a gentle simmer",
+                    "Add cooked pasta and toss with sauce",
+                    "Sprinkle with parmesan cheese and serve hot"
+                ],
+                cookingTime: "20 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Mediterranean Salmon",
+                ingredients: ["salmon", "lemons", "herbs", "olive oil", "tomatoes", "garlic"],
+                instructions: [
+                    "Preheat oven to 400°F (200°C)",
+                    "Place salmon fillets on a baking sheet lined with parchment",
+                    "Drizzle with olive oil and lemon juice",
+                    "Top with fresh herbs, garlic, and diced tomatoes",
+                    "Season with salt and pepper",
+                    "Bake for 12-15 minutes until fish flakes easily"
+                ],
+                cookingTime: "25 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Black Bean Quesadillas",
+                ingredients: ["black beans", "cheese", "tortillas", "bell peppers", "onion", "cilantro"],
+                instructions: [
+                    "Sauté diced onion and bell peppers until soft",
+                    "Add black beans and heat through",
+                    "Place filling on one half of each tortilla",
+                    "Top with shredded cheese and fold tortilla in half",
+                    "Cook in a hot skillet until golden and cheese melts",
+                    "Cut into wedges and serve with salsa and cilantro"
+                ],
+                cookingTime: "20 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Shrimp Scampi",
+                ingredients: ["shrimp", "garlic", "butter", "lemons", "pasta", "herbs"],
+                instructions: [
+                    "Cook pasta according to package directions",
+                    "Heat butter in a large skillet over medium heat",
+                    "Add minced garlic and cook for 1 minute",
+                    "Add shrimp and cook until pink, about 2-3 minutes per side",
+                    "Add lemon juice and fresh herbs",
+                    "Toss with cooked pasta and serve immediately"
+                ],
+                cookingTime: "18 minutes",
+                difficulty: "Medium"
+            },
+            {
+                name: "Tofu Stir Fry",
+                ingredients: ["tofu", "vegetables", "soy sauce", "ginger", "garlic", "vegetable oil"],
+                instructions: [
+                    "Press tofu and cut into cubes",
+                    "Heat oil in a large wok over high heat",
+                    "Add tofu and cook until golden on all sides",
+                    "Remove tofu and set aside",
+                    "Stir-fry vegetables until crisp-tender",
+                    "Return tofu to wok, add sauce and toss together"
+                ],
+                cookingTime: "22 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Tuna Pasta Salad",
+                ingredients: ["tuna", "pasta", "vegetables", "olive oil", "lemons", "herbs"],
+                instructions: [
+                    "Cook pasta and cool completely",
+                    "Drain tuna and flake into chunks",
+                    "Dice fresh vegetables into small pieces",
+                    "Whisk together olive oil, lemon juice, and herbs",
+                    "Combine pasta, tuna, vegetables, and dressing",
+                    "Chill for at least 1 hour before serving"
+                ],
+                cookingTime: "30 minutes (plus chilling)",
+                difficulty: "Easy"
+            },
+            {
+                name: "Pork Fried Rice",
+                ingredients: ["pork", "rice", "eggs", "vegetables", "soy sauce", "garlic"],
+                instructions: [
+                    "Cook and dice pork into small pieces",
+                    "Use day-old rice for best texture",
+                    "Scramble eggs and set aside",
+                    "Stir-fry pork until heated through",
+                    "Add rice and vegetables, stir-fry until hot",
+                    "Add eggs and soy sauce, toss everything together"
+                ],
+                cookingTime: "20 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Chickpea Curry",
+                ingredients: ["chickpeas", "coconut milk", "curry powder", "onion", "tomatoes", "garlic"],
+                instructions: [
+                    "Sauté diced onion until translucent",
+                    "Add minced garlic and curry powder, cook for 1 minute",
+                    "Add diced tomatoes and cook until soft",
+                    "Add chickpeas and coconut milk",
+                    "Simmer for 15-20 minutes until thickened",
+                    "Season with salt and serve over rice"
+                ],
+                cookingTime: "35 minutes",
+                difficulty: "Medium"
+            },
+            {
+                name: "Lentil Soup",
+                ingredients: ["lentils", "carrots", "onion", "garlic", "chicken broth", "herbs"],
+                instructions: [
+                    "Rinse lentils and set aside",
+                    "Sauté diced onion and carrots until soft",
+                    "Add minced garlic and cook for 1 minute",
+                    "Add lentils and chicken broth",
+                    "Bring to a boil, then reduce heat and simmer",
+                    "Cook for 25-30 minutes until lentils are tender",
+                    "Season with herbs, salt, and pepper"
+                ],
+                cookingTime: "45 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Beef and Broccoli",
+                ingredients: ["beef", "broccoli", "soy sauce", "garlic", "ginger", "vegetable oil"],
+                instructions: [
+                    "Slice beef into thin strips",
+                    "Heat oil in a large wok over high heat",
+                    "Stir-fry beef until browned, about 3-4 minutes",
+                    "Add broccoli florets and stir-fry for 2 minutes",
+                    "Add garlic and ginger, cook for 30 seconds",
+                    "Add soy sauce and toss everything together",
+                    "Serve immediately over steamed rice"
+                ],
+                cookingTime: "15 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Spinach and Cheese Omelet",
+                ingredients: ["eggs", "spinach", "cheese", "butter", "milk"],
+                instructions: [
+                    "Beat eggs with a splash of milk",
+                    "Heat butter in a non-stick pan over medium heat",
+                    "Pour in eggs and let set for 1 minute",
+                    "Add spinach and cheese to one half",
+                    "Fold omelet in half and slide onto plate",
+                    "Serve immediately while hot"
+                ],
+                cookingTime: "10 minutes",
+                difficulty: "Medium"
+            },
+            {
+                name: "Honey Garlic Chicken",
+                ingredients: ["chicken", "honey", "garlic", "soy sauce", "ginger", "vegetable oil"],
+                instructions: [
+                    "Cut chicken into bite-sized pieces",
+                    "Heat oil in a large skillet over medium-high heat",
+                    "Cook chicken until golden brown and cooked through",
+                    "Mix honey, soy sauce, minced garlic, and ginger",
+                    "Pour sauce over chicken and toss to coat",
+                    "Cook for 2-3 minutes until sauce thickens"
+                ],
+                cookingTime: "20 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Vegetable Quinoa Bowl",
+                ingredients: ["quinoa", "vegetables", "olive oil", "lemons", "herbs", "chickpeas"],
+                instructions: [
+                    "Cook quinoa according to package directions",
+                    "Roast mixed vegetables with olive oil and seasonings",
+                    "Prepare a simple lemon herb dressing",
+                    "Warm chickpeas in a small pan",
+                    "Assemble bowls with quinoa, vegetables, and chickpeas",
+                    "Drizzle with dressing and serve"
+                ],
+                cookingTime: "35 minutes",
+                difficulty: "Easy"
+            },
+            {
+                name: "Mozzarella Caprese Pasta",
+                ingredients: ["pasta", "mozzarella", "tomatoes", "basil", "olive oil", "balsamic"],
+                instructions: [
+                    "Cook pasta until al dente and drain",
+                    "Cut fresh mozzarella and tomatoes into chunks",
+                    "Toss warm pasta with olive oil",
+                    "Add mozzarella, tomatoes, and fresh basil",
+                    "Drizzle with balsamic vinegar",
+                    "Serve immediately while mozzarella is slightly melted"
+                ],
+                cookingTime: "15 minutes",
+                difficulty: "Easy"
+            }
+        ];
+
+        let selectedIngredients = new Set();
+        let filteredRecipes = [];
+
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const selectedCount = document.getElementById('selectedCount');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const findRecipesBtn = document.getElementById('findRecipesBtn');
+        const recipesContainer = document.getElementById('recipesContainer');
+        const ingredientsContainer = document.getElementById('ingredientsContainer');
+
+        // Initialize the app
+        function init() {
+            setupEventListeners();
+            updateSelectedCount();
+        }
+
+        function setupEventListeners() {
+            // Ingredient checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', handleIngredientToggle);
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', handleSearch);
+
+            // Clear all button
+            clearAllBtn.addEventListener('click', clearAllIngredients);
+
+            // Find recipes button
+            findRecipesBtn.addEventListener('click', findRecipes);
+        }
+
+        function handleIngredientToggle(event) {
+            const ingredient = event.target.value;
+            const label = event.target.closest('.ingredient-checkbox');
+            
+            if (event.target.checked) {
+                selectedIngredients.add(ingredient);
+                label.classList.add('selected');
+            } else {
+                selectedIngredients.delete(ingredient);
+                label.classList.remove('selected');
+            }
+            
+            updateSelectedCount();
+        }
+
+        function handleSearch(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            const ingredientLabels = document.querySelectorAll('.ingredient-checkbox');
+            
+            ingredientLabels.forEach(label => {
+                const ingredientName = label.textContent.toLowerCase();
+                if (ingredientName.includes(searchTerm)) {
+                    label.style.display = 'flex';
+                } else {
+                    label.style.display = 'none';
+                }
+            });
+        }
+
+        function updateSelectedCount() {
+            const count = selectedIngredients.size;
+            selectedCount.innerHTML = `
+                ${count} ingredient${count !== 1 ? 's' : ''} selected
+                ${count > 0 ? '<button class="clear-all-btn" id="clearAllBtn">Clear All</button>' : ''}
+            `;
+            
+            // Re-attach event listener to new clear button
+            const newClearBtn = document.getElementById('clearAllBtn');
+            if (newClearBtn) {
+                newClearBtn.addEventListener('click', clearAllIngredients);
+            }
+            
+            // Enable/disable find recipes button
+            findRecipesBtn.disabled = count === 0;
+        }
+
+        function clearAllIngredients() {
+            selectedIngredients.clear();
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const labels = document.querySelectorAll('.ingredient-checkbox');
+            
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            labels.forEach(label => label.classList.remove('selected'));
+            
+            updateSelectedCount();
+            
+            // Clear recipes display
+            recipesContainer.innerHTML = `
+                <div class="no-recipes">
+                    🥕 Select ingredients from your pantry to get started!<br>
+                    <small>Choose from the ingredient list on the left</small>
+                </div>
+            `;
+        }
+
+        function findRecipes() {
+            if (selectedIngredients.size === 0) return;
+            
+            filteredRecipes = recipeDatabase.filter(recipe => {
+                const matchingIngredients = recipe.ingredients.filter(ingredient => 
+                    selectedIngredients.has(ingredient)
+                );
+                return matchingIngredients.length >= 2; // Need at least 2 matching ingredients
+            });
+            
+            // Sort by number of matching ingredients (descending)
+            filteredRecipes.sort((a, b) => {
+                const aMatches = a.ingredients.filter(ing => selectedIngredients.has(ing)).length;
+                const bMatches = b.ingredients.filter(ing => selectedIngredients.has(ing)).length;
+                return bMatches - aMatches;
+            });
+            
+            displayRecipes();
+        }
+
+        function displayRecipes() {
+            if (filteredRecipes.length === 0) {
+                recipesContainer.innerHTML = `
+                    <div class="no-recipes">
+                        😔 No recipes found with your selected ingredients.<br>
+                        <small>Try selecting different ingredients or fewer ingredients</small>
+                    </div>
+                `;
+                return;
+            }
+            
+            const recipesHTML = filteredRecipes.map(recipe => {
+                const matchingIngredients = recipe.ingredients.filter(ing => selectedIngredients.has(ing));
+                const ingredientsHTML = recipe.ingredients.map(ing => {
+                    const isMatched = selectedIngredients.has(ing);
+                    return `<span class="ingredient-item ${isMatched ? 'matched' : ''}">${ing}</span>`;
+                }).join('');
+                
+                return `
+                    <div class="recipe-card" onclick="showRecipeDetail('${recipe.name}')">
+                        <div class="recipe-header">
+                            <h3 class="recipe-title">${recipe.name}</h3>
+                            <p class="recipe-difficulty">${recipe.difficulty} • ${matchingIngredients.length}/${recipe.ingredients.length} ingredients match</p>
+                        </div>
+                        <div class="recipe-body">
+                            <div class="recipe-ingredients">
+                                <div class="ingredients-title">Ingredients:</div>
+                                ${ingredientsHTML}
+                            </div>
+                        </div>
+                        <div class="recipe-time">⏱️ ${recipe.cookingTime}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            recipesContainer.innerHTML = `
+                <div class="recipes-grid">
+                    ${recipesHTML}
+                </div>
+            `;
+        }
+
+        function showRecipeDetail(recipeName) {
+            const recipe = recipeDatabase.find(r => r.name === recipeName);
+            if (!recipe) return;
+            
+            document.getElementById('detailTitle').textContent = recipe.name;
+            document.getElementById('detailDifficulty').textContent = `${recipe.difficulty} • ${recipe.cookingTime}`;
+            
+            // Display ingredients with highlighting
+            const ingredientsHTML = recipe.ingredients.map(ing => {
+                const isMatched = selectedIngredients.has(ing);
+                return `<span class="ingredient-item ${isMatched ? 'matched' : ''}">${ing}</span>`;
+            }).join('');
+            document.getElementById('detailIngredients').innerHTML = ingredientsHTML;
+            
+            // Display instructions
+            const instructionsHTML = recipe.instructions.map(instruction => 
+                `<li>${instruction}</li>`
+            ).join('');
+            document.getElementById('detailInstructions').innerHTML = instructionsHTML;
+            
+            document.getElementById('detailTime').textContent = `Total cooking time: ${recipe.cookingTime}`;
+            
+            // Show modal
+            document.getElementById('recipeDetail').style.display = 'block';
+        }
+
+        function closeRecipeDetail() {
+            document.getElementById('recipeDetail').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('recipeDetail').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeRecipeDetail();
+            }
+        });
+
+        // Initialize the app when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
