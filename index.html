@@ -400,10 +400,10 @@
             position: relative;
         }
         @media (max-width: 768px) {
-  .recipe-card {
-    height: 250px;
-    min-height: 250px;
-  }
+            .recipes-content {
+    padding: 15px;
+    margin: 0 5px;
+}
 }
 
 
@@ -526,13 +526,17 @@
     
     .recipes-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 20px;
 }
-    
-    .recipe-card {
-        min-height: 130px;
-    }
+
+.recipe-card {
+    height: auto;
+    min-height: auto;
+    aspect-ratio: auto;
+    margin: 0 5px;
+}
+
     
     .recipe-detail-content { 
         margin: 10px; 
