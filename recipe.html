@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -544,7 +543,16 @@
                 font-size: 0.8rem;
             }
         }
-    </style>
+    
+.recipe-description {
+    font-size: 0.8rem;
+    margin: 6px 0;
+    color: #444;
+    line-height: 1.3;
+    padding-bottom: 85px ;
+}
+
+</style>
 </head>
 <body>
     <div class="container">
@@ -898,7 +906,7 @@
         // Recipe database
         const recipeDatabase = [
             {
-                name: "Classic Chicken Stir Fry",
+                name: "Classic Chicken Stir Fry", description: "A quick and flavorful Asian dish packed with colorful veggies and tender chicken.",
                 ingredients: ["chicken", "soy sauce", "vegetables", "garlic", "ginger", "vegetable oil"],
                 instructions: [
                     "Heat oil in a large wok or skillet over high heat",
@@ -912,7 +920,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Creamy Mushroom Pasta",
+                name: "Creamy Mushroom Pasta", description: "Rich and comforting pasta with creamy garlic mushrooms and parmesan.",
                 ingredients: ["pasta", "mushrooms", "cream", "garlic", "parmesan", "butter"],
                 instructions: [
                     "Cook pasta according to package directions until al dente",
@@ -926,7 +934,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Mediterranean Salmon",
+                name: "Mediterranean Salmon", description: "Oven-baked salmon with fresh herbs, tomatoes, and lemon for a light Mediterranean meal.",
                 ingredients: ["salmon", "lemons", "herbs", "olive oil", "tomatoes", "garlic"],
                 instructions: [
                     "Preheat oven to 400°F (200°C)",
@@ -940,7 +948,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Black Bean Quesadillas",
+                name: "Black Bean Quesadillas", description: "Crispy tortillas filled with gooey cheese, beans, and veggies — perfect for a quick bite.",
                 ingredients: ["black beans", "cheese", "tortillas", "bell peppers", "onion", "cilantro"],
                 instructions: [
                     "Sauté diced onion and bell peppers until soft",
@@ -954,7 +962,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Shrimp Scampi",
+                name: "Shrimp Scampi", description: "Classic shrimp and pasta tossed in lemony garlic butter — easy and delicious.",
                 ingredients: ["shrimp", "garlic", "butter", "lemons", "pasta", "herbs"],
                 instructions: [
                     "Cook pasta according to package directions",
@@ -968,7 +976,7 @@
                 difficulty: "Medium"
             },
             {
-                name: "Tofu Stir Fry",
+                name: "Tofu Stir Fry", description: "Healthy and protein-rich tofu stir fry with vibrant veggies and soy-ginger sauce.",
                 ingredients: ["tofu", "vegetables", "soy sauce", "ginger", "garlic", "vegetable oil"],
                 instructions: [
                     "Press tofu and cut into cubes",
@@ -982,7 +990,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Tuna Pasta Salad",
+                name: "Tuna Pasta Salad", description: "A cool, refreshing pasta salad with tuna and fresh herbs — perfect for summer meals.",
                 ingredients: ["tuna", "pasta", "vegetables", "olive oil", "lemons", "herbs"],
                 instructions: [
                     "Cook pasta and cool completely",
@@ -996,7 +1004,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Pork Fried Rice",
+                name: "Pork Fried Rice", description: "Savory and satisfying fried rice with juicy pork and veggies — better than takeout!",
                 ingredients: ["pork", "rice", "eggs", "vegetables", "soy sauce", "garlic"],
                 instructions: [
                     "Cook and dice pork into small pieces",
@@ -1010,7 +1018,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Chickpea Curry",
+                name: "Chickpea Curry", description: "A hearty, spiced chickpea curry in creamy coconut gravy — great with rice or naan.",
                 ingredients: ["chickpeas", "coconut milk", "curry powder", "onion", "tomatoes", "garlic"],
                 instructions: [
                     "Sauté diced onion until translucent",
@@ -1024,7 +1032,7 @@
                 difficulty: "Medium"
             },
             {
-                name: "Lentil Soup",
+                name: "Lentil Soup", description: "Nourishing and wholesome lentil soup with herbs and vegetables.",
                 ingredients: ["lentils", "carrots", "onion", "garlic", "chicken broth", "herbs"],
                 instructions: [
                     "Rinse lentils and set aside",
@@ -1039,7 +1047,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Beef and Broccoli",
+                name: "Beef and Broccoli", description: "Tender beef and crunchy broccoli in a savory garlic soy sauce — quick and classic.",
                 ingredients: ["beef", "broccoli", "soy sauce", "garlic", "ginger", "vegetable oil"],
                 instructions: [
                     "Slice beef into thin strips",
@@ -1054,7 +1062,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Spinach and Cheese Omelet",
+                name: "Spinach and Cheese Omelet", description: "Fluffy omelet filled with melty cheese and vibrant spinach — breakfast favorite.",
                 ingredients: ["eggs", "spinach", "cheese", "butter", "milk"],
                 instructions: [
                     "Beat eggs with a splash of milk",
@@ -1068,7 +1076,7 @@
                 difficulty: "Medium"
             },
             {
-                name: "Honey Garlic Chicken",
+                name: "Honey Garlic Chicken", description: "Sticky, sweet, and savory chicken in a rich honey-garlic sauce.",
                 ingredients: ["chicken", "honey", "garlic", "soy sauce", "ginger", "vegetable oil"],
                 instructions: [
                     "Cut chicken into bite-sized pieces",
@@ -1082,7 +1090,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Vegetable Quinoa Bowl",
+                name: "Vegetable Quinoa Bowl", description: "A nourishing bowl with roasted vegetables, chickpeas, and lemon herb quinoa.",
                 ingredients: ["quinoa", "vegetables", "olive oil", "lemons", "herbs", "chickpeas"],
                 instructions: [
                     "Cook quinoa according to package directions",
@@ -1096,7 +1104,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Mozzarella Caprese Pasta",
+                name: "Mozzarella Caprese Pasta", description: "A fusion of pasta and Caprese salad with basil, tomato, and melty mozzarella.",
                 ingredients: ["pasta", "mozzarella", "tomatoes", "basil", "olive oil", "balsamic"],
                 instructions: [
                     "Cook pasta until al dente and drain",
@@ -1110,7 +1118,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Spinach and Cheese Quesadilla",
+                name: "Spinach and Cheese Quesadilla", description: "Golden quesadilla stuffed with garlicky spinach and melted cheese.",
                 ingredients: ["spinach", "cheese", "tortillas", "garlic", "olive oil"],
                 instructions: [
                     "Sauté spinach with garlic until wilted",
@@ -1124,7 +1132,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Beef Tacos",
+                name: "Beef Tacos", description: "Flavorful beef stuffed into warm tortillas and topped with fresh toppings.",
                 ingredients: ["beef", "tortillas", "onion", "cheese", "tomatoes", "cilantro"],
                 instructions: [
                     "Brown ground beef in a large skillet",
@@ -1138,7 +1146,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Quinoa Salad",
+                name: "Quinoa Salad", description: "A zesty and crunchy salad with quinoa, veggies, and citrus-herb dressing.",
                 ingredients: ["quinoa", "vegetables", "lemons", "olive oil", "herbs"],
                 instructions: [
                     "Cook quinoa according to package directions and cool",
@@ -1152,7 +1160,7 @@
                 difficulty: "Easy"
             },
             {
-                name: "Chicken Noodle Soup",
+                name: "Chicken Noodle Soup", description: "Comforting and soothing soup with tender chicken, noodles, and veggies.",
                 ingredients: ["chicken", "noodles", "carrots", "onion", "chicken broth", "herbs"],
                 instructions: [
                     "Sauté diced onion and carrots until soft",
@@ -1329,7 +1337,7 @@
                                 </div>
                             </div>
                             <div class="recipe-body">
-                                <div class="match-count">${matchingIngredients.length}/${recipe.ingredients.length} matched</div>
+                                <p class="recipe-description">${recipe.description}</p><div class="match-count">${matchingIngredients.length}/${recipe.ingredients.length} matched</div>
                                 <div class="recipe-ingredients-preview">
                                     ${ingredientsHtml}
                                     ${hasMore ? '<span class="more-ingredients">+' + (recipe.ingredients.length - 5) + ' more</span>' : ''}
