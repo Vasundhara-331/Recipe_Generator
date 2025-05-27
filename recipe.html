@@ -222,7 +222,7 @@
             z-index: 1000;
             overflow-y: auto;
             display: none;
-            padding: 20px;
+            padding: 15px;
         }
 
         .recipes-content {
@@ -230,7 +230,7 @@
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.98);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             position: relative;
         }
 
@@ -238,8 +238,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
         }
 
@@ -266,77 +266,91 @@
 
         .recipes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
         }
 
         .recipe-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    height: auto;
+    min-height: 140px;
+}
 
-        .recipe-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
+.recipe-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+.recipe-header {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 10px 12px 8px;
+}
 
-        .recipe-header {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+.recipe-title {
+    font-size: 1rem;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+.recipe-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+}
+.recipe-difficulty {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
 
-        .recipe-title {
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-        }
+.recipe-body {
+    padding: 10px 12px 12px;
+}
+.match-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #d35400;
+    margin-bottom: 6px;
+}
 
-        .recipe-difficulty {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
+.recipe-ingredients-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    max-height: 50px;
+    overflow: hidden;
+}
 
-        .recipe-body {
-            padding: 20px;
-        }
+.more-ingredients {
+    font-size: 0.7rem;
+    color: #888;
+    font-style: italic;
+    padding: 2px 6px;
+    background: #f9f9f9;
+    border-radius: 6px;
+}
 
-        .recipe-ingredients {
-            margin-bottom: 15px;
-        }
-
-        .ingredients-title {
-            font-weight: bold;
-            color: #d35400;
-            margin-bottom: 8px;
-        }
 
         .ingredient-item {
-            display: inline-block;
-            background: #f8f9fa;
-            padding: 4px 8px;
-            margin: 2px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            color: #666;
-        }
+    display: inline-block;
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    color: #666;
+}
 
-        .ingredient-item.matched {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            color: white;
-        }
-
-        .recipe-time {
-            text-align: center;
-            padding: 10px;
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #666;
-        }
+.ingredient-item.matched {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    color: white;
+}
 
         .no-recipes {
             text-align: center;
@@ -446,54 +460,62 @@
         }
 
         @media (max-width: 1200px) {
-            .ingredients-categories {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 20px;
-            }
-        }
+    .ingredients-categories {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    
+    .recipes-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
 
-        @media (max-width: 768px) {
-            .container { 
-                padding: 10px; 
-            }
-            
-            h1 { 
-                font-size: 2rem; 
-            }
-            
-            .pantry-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .section-title {
-                justify-content: center;
-                margin-bottom: 15px;
-            }
-            
-            .ingredients-categories {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .ingredients-grid {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            }
-            
-            .recipes-content {
-                margin: 10px;
-                padding: 20px;
-            }
-            
-            .recipes-grid { 
-                grid-template-columns: 1fr; 
-            }
-            
-            .recipe-detail-content { 
-                margin: 20px; 
-            }
-        }
-
+@media (max-width: 768px) {
+    .container { 
+        padding: 10px; 
+    }
+    
+    h1 { 
+        font-size: 2rem; 
+    }
+    
+    .pantry-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .section-title {
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    
+    .ingredients-categories {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .ingredients-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .recipes-content {
+        margin: 5px;
+        padding: 15px;
+    }
+    
+    .recipes-grid { 
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 8px;
+    }
+    
+    .recipe-card {
+        min-height: 130px;
+    }
+    
+    .recipe-detail-content { 
+        margin: 10px; 
+    }
+}
         @media (max-width: 480px) {
             .ingredients-grid {
                 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -1228,28 +1250,46 @@
             // Filter recipes that contain at least some of the selected ingredients
             currentRecipes = recipeDatabase.filter(recipe => {
                 const matchingIngredients = recipe.ingredients.filter(ingredient => 
-                    selectedIngredients.some(selected => 
-                        ingredient.toLowerCase().includes(selected.toLowerCase()) ||
-                        selected.toLowerCase().includes(ingredient.toLowerCase())
-                    )
+                    selectedIngredients.some(selected => {
+                        // Exact match or whole word match to avoid partial matches
+                        const ingredientLower = ingredient.toLowerCase();
+                        const selectedLower = selected.toLowerCase();
+                        
+                        // Check for exact match
+                        if (ingredientLower === selectedLower) return true;
+                        
+                        // Check if selected ingredient is a whole word within the recipe ingredient
+                        const regex = new RegExp(`\\b${selectedLower}\\b`);
+                        return regex.test(ingredientLower);
+                    })
                 );
-                return matchingIngredients.length > 0;
+                return matchingIngredients.length >= 2;
             });
 
             // Sort by number of matching ingredients (descending)
             currentRecipes.sort((a, b) => {
                 const aMatches = a.ingredients.filter(ingredient => 
-                    selectedIngredients.some(selected => 
-                        ingredient.toLowerCase().includes(selected.toLowerCase()) ||
-                        selected.toLowerCase().includes(ingredient.toLowerCase())
-                    )
+                    selectedIngredients.some(selected => {
+                        const ingredientLower = ingredient.toLowerCase();
+                        const selectedLower = selected.toLowerCase();
+                        
+                        if (ingredientLower === selectedLower) return true;
+                        
+                        const regex = new RegExp(`\\b${selectedLower}\\b`);
+                        return regex.test(ingredientLower);
+                    })
                 ).length;
                 
                 const bMatches = b.ingredients.filter(ingredient => 
-                    selectedIngredients.some(selected => 
-                        ingredient.toLowerCase().includes(selected.toLowerCase()) ||
-                        selected.toLowerCase().includes(ingredient.toLowerCase())
-                    )
+                    selectedIngredients.some(selected => {
+                        const ingredientLower = ingredient.toLowerCase();
+                        const selectedLower = selected.toLowerCase();
+                        
+                        if (ingredientLower === selectedLower) return true;
+                        
+                        const regex = new RegExp(`\\b${selectedLower}\\b`);
+                        return regex.test(ingredientLower);
+                    })
                 ).length;
                 
                 return bMatches - aMatches;
@@ -1258,20 +1298,29 @@
             displayRecipes();
         }
 
-        // Display recipes in overlay
+        // Display recipes in overlay - COMPACT VERSION
         function displayRecipes() {
             if (currentRecipes.length === 0) {
                 recipesGrid.innerHTML = '<div class="no-recipes">No recipes found with your selected ingredients. Try selecting different ingredients!</div>';
             } else {
                 recipesGrid.innerHTML = currentRecipes.map((recipe, index) => {
                     const matchingIngredients = recipe.ingredients.filter(ingredient => 
-                        selectedIngredients.some(selected => 
-                            ingredient.toLowerCase().includes(selected.toLowerCase()) ||
-                            selected.toLowerCase().includes(ingredient.toLowerCase())
-                        )
+                        selectedIngredients.some(selected => {
+                            const ingredientLower = ingredient.toLowerCase();
+                            const selectedLower = selected.toLowerCase();
+                            
+                            if (ingredientLower === selectedLower) return true;
+                            
+                            const regex = new RegExp(`\\b${selectedLower}\\b`);
+                            return regex.test(ingredientLower);
+                        })
                     );
                     
-                    const ingredientsHtml = recipe.ingredients.map(ingredient => {
+                    // Show only first 5 ingredients for preview
+                    const previewIngredients = recipe.ingredients.slice(0, 5);
+                    const hasMore = recipe.ingredients.length > 5;
+                    
+                    const ingredientsHtml = previewIngredients.map(ingredient => {
                         const isMatched = matchingIngredients.includes(ingredient);
                         return `<span class="ingredient-item ${isMatched ? 'matched' : ''}">${ingredient}</span>`;
                     }).join('');
@@ -1280,15 +1329,18 @@
                         <div class="recipe-card" onclick="showRecipeDetail(${index})">
                             <div class="recipe-header">
                                 <h3 class="recipe-title">${recipe.name}</h3>
-                                <p class="recipe-difficulty">${recipe.difficulty}</p>
-                            </div>
-                            <div class="recipe-body">
-                                <div class="recipe-ingredients">
-                                    <div class="ingredients-title">Ingredients (${matchingIngredients.length}/${recipe.ingredients.length} matched):</div>
-                                    ${ingredientsHtml}
+                                <div class="recipe-meta">
+                                    <span class="recipe-difficulty">${recipe.difficulty}</span>
+                                    <span class="recipe-time">⏱️ ${recipe.cookingTime}</span>
                                 </div>
                             </div>
-                            <div class="recipe-time">⏱️ ${recipe.cookingTime}</div>
+                            <div class="recipe-body">
+                                <div class="match-count">${matchingIngredients.length}/${recipe.ingredients.length} matched</div>
+                                <div class="recipe-ingredients-preview">
+                                    ${ingredientsHtml}
+                                    ${hasMore ? '<span class="more-ingredients">+' + (recipe.ingredients.length - 5) + ' more</span>' : ''}
+                                </div>
+                            </div>
                         </div>
                     `;
                 }).join('');
@@ -1308,10 +1360,15 @@
             
             // Show ingredients with highlighting
             const matchingIngredients = recipe.ingredients.filter(ingredient => 
-                selectedIngredients.some(selected => 
-                    ingredient.toLowerCase().includes(selected.toLowerCase()) ||
-                    selected.toLowerCase().includes(ingredient.toLowerCase())
-                )
+                selectedIngredients.some(selected => {
+                    const ingredientLower = ingredient.toLowerCase();
+                    const selectedLower = selected.toLowerCase();
+                    
+                    if (ingredientLower === selectedLower) return true;
+                    
+                    const regex = new RegExp(`\\b${selectedLower}\\b`);
+                    return regex.test(ingredientLower);
+                })
             );
             
             const ingredientsHtml = recipe.ingredients.map(ingredient => {
